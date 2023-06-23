@@ -1,6 +1,42 @@
 <!doctype html>
+
 <html>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
+<head>
+  <script>
+    function submitFiles() {
+      let formData = new FormData();
+      let files = document.querySelector("#files").files;
+      let i=0;
+
+      
+      formData.append("file", files[i]);
+
+      var request = new XMLHttpRequest();
+
+      try{
+        request.open("POST", "https://inference.deepphi.ai/ddddd/1.0/api/prediction");
+        request.send(formData);
+
+        request.onload = () => {
+          if (request.status == 200){
+            let result = request.response;
+            result = JSON.parse(result);
+            console.log(result);
+          }
+        }
+
+      }catch(error){
+        console.error(error);
+      }
+
+
+    }
+  </script>
+</head>
+<body>
+<form>
+  <input type="file" name="files" id="files" multiple/>
+  <button type="button" onclick="submitFiles()">submit</button>
+</form>
+</body>
 </html>
